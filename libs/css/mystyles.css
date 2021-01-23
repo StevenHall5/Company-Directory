@@ -1,0 +1,89 @@
+html, body{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    background-color: rgb(244, 244, 244);
+}
+
+header {
+    height: 10%;
+    width: 100%;
+    text-align: center;
+}
+
+main {
+    height: 90%;
+    width: 100%;
+}
+
+#mainMenu {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+#addMenu {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#addEmpPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#addDeptPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#addLocPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#accessMenu {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#allEmpPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#allDeptPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#allLocPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#selEmpPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#selDeptPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#selLocPage {
+    height: 100%;
+    width: 100%;
+    display: none;
+}

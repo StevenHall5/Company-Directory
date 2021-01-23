@@ -10,25 +10,140 @@
         <link rel="stylesheet" href="libs/css/bootstrap.min.css">
         <link rel="stylesheet" href="libs/css/mystyles.css">
     </head>
+
     <body>
-        <h1>Company Directory</h1>
-        <input id="button1" type="submit" value="Run">
-        <input id="button2" type="submit" value="Run">
-        <input id="button3" type="submit" value="Run">
-        <input id="button4" type="submit" value="Run">
-        <input id="button5" type="submit" value="Run">
 
-        <div id="display"></div>
+        <header>
+            <h1>Company Directory</h1>
+        </header>
 
+        <main>
 
+            <div id="mainMenu">
+                <input id="toAddMenu" type="button" value="Click Here to Add Record">
+                <input id="toAccessMenu" type="button" value="Click Here to Access Record">
+            </div>
 
+            <div id="addMenu" class="majorMenu">
+                <input id="toAddEmp" type="button" value="Click Here to Add Employee">
+                <input id="toAddDept" type="button" value="Click Here to Add Department">
+                <input id="toAddLoc" type="button" value="Click Here to Add Location">
+                <input class="backToMainMenu" type="button" value="Back to Main Menu">
+            </div>
 
+            <div id="addEmpPage" class="addPage">
+                <form>
+                    <label for="addFName">First Name:</label><br>
+                    <input type="text" id="addFName" name="addFName" required><br>
+                    <label for="addLName">Last Name:</label><br>
+                    <input type="text" id="addLName" name="addLName" required><br>
+                    <label for="addJobTitle">Job Title:</label><br>
+                    <input type="text" id="addJobTitle" name="addJobTitle"><br>
+                    <label for="addEmail" >E-mail:</label><br>
+                    <input type="email" id="addEmail" name="addEmail"><br>
+                    <label for="addEmpDept">Department:</label><br>
+                    <select id="addEmpDept" name="addEmpDept" required></select>
+                    <input id="submitAddEmp" type="submit" value="Add">
+                </form>
+                <input class="backToAddMenu" type="button" value="Back to Add Menu">
+            </div>
 
+            <div id="addDeptPage" class="addPage">
+                <form>
+                    <label for="AddDept">Department:</label><br>
+                    <input type="text" id="AddDept" name="AddDept" required><br>
+                    <label for="addDeptLoc">Location:</label><br>
+                    <select id="addDeptLoc" name="addDeptLoc" required></select>
+                    <input id="submitAddDept" type="submit" value="Add">
+                </form>
+                <input class="backToAddMenu" type="button" value="Back to Add Menu">
+            </div>
 
+            <div id="addLocPage" class="addPage">
+                <form>
+                    <label for="loc">Location:</label><br>
+                    <input type="text" id="loc" name="loc" required><br>
+                    <input id="submitAddLoc" type="submit" value="Add">
+                    </select>
+                </form>
+                <input class="backToAddMenu" type="button" value="Back to Add Menu">
+            </div>
 
+            <div id="accessMenu" class="majorMenu">
+                <input id="toAllEmp" type="button" value="Click Here For All Employees">
+                <input id="toAllDept" type="button" value="Click Here For All Departments">
+                <input id="toAllLoc" type="button" value="Click Here For All Locations">
+                <input id="toSelEmp" type="button" value="Click Here For Employee Data">
+                <input id="toSelDept" type="button" value="Click Here For Department Data">
+                <input id="toSelLoc" type="button" value="Click Here For Location Data">
+                <input class="backToMainMenu" type="button" value="Back to Main Menu">
+            </div>
 
+            <div id="allEmpPage" class="accessPage">
+                <input class="backToAccessMenu" type="button" value="Back to Access Menu">
+                <table id="allEmpTable"></table>
+                <input class="backToAccessMenu" type="button" value="Back to Access Menu">
+            </div>
 
+            <div id="allDeptPage" class="accessPage">
+                <table id="allDeptTable"></table>
+                <input class="backToAccessMenu" type="button" value="Back to Access Menu">
+            </div>
+            
+            <div id="allLocPage" class="accessPage">
+                <table id="allLocTable"></table>
+                <input class="backToAccessMenu" type="button" value="Back to Access Menu">
+            </div>
 
+            <div id="selEmpPage" class="accessPage">
+                <label for="empSelect">Select Employee:</label><br>
+                <span id="empSpan"></span>
+                <form>
+                    <label for="getFName">First Name:</label><br>
+                    <input type="text" id="getFName" name="getFName" required><br>
+                    <label for="getLName">Last Name:</label><br>
+                    <input type="text" id="getLName" name="getLName" required><br>
+                    <label for="getJobTitle">Job Title:</label><br>
+                    <input type="text" id="getJobTitle" name="getJobTitle"><br>
+                    <label for="getEmail" >E-mail:</label><br>
+                    <input type="email" id="getEmail" name="getEmail"><br>
+                    <label for="getEmpDept">Department:</label><br>
+                    <select id="getEmpDept" name="getEmpDept" required></select><br>
+                    <label for="getEmpLoc">Location:</label><br>
+                    <input type="text" id="getEmpLoc" name="getEmpLoc" readonly><br>
+                    <input id="submitEmp" type="submit" value="Save">
+                </form>
+                <input type="button" value="Delete">
+                <input class="backToAccessMenu" type="button" value="Back to Access Menu">
+            </div>
+
+            <div id="selDeptPage" class="accessPage">
+                <label for="deptSelect">Select Department:</label><br>
+                <span id="deptSpan"></span>
+                <form>
+                    <label for="getDeptName">Name:</label><br>
+                    <input type="text" id="getDeptName" name="getDeptName" required><br>
+                    <label for="getDeptLoc">Location:</label><br>
+                    <select id="getDeptLoc" name="getDeptLoc" required></select><br>
+                    <input id="submitDept" type="submit" value="Save">
+                </form>
+                <input type="button" value="Delete">
+                <input class="backToAccessMenu" type="button" value="Back to Access Menu">
+            </div>
+
+            <div id="selLocPage" class="accessPage">
+                <label for="locSelect">Select Location:</label><br>
+                <span id="locSpan"></span>
+                <form>
+                    <label for="getLocName">Name:</label><br>
+                    <input type="text" id="getLocName" name="getLocName" required><br>
+                    <input id="submitLoc" type="submit" value="Save">
+                </form>
+                <input type="button" value="Delete">
+                <input class="backToAccessMenu" type="button" value="Back to Access Menu">
+            </div>
+
+        </main>
 
         <script src="libs/js/jquery-3.5.1.min.js"></script>
         <script src="libs/js/bootstrap.js"></script>

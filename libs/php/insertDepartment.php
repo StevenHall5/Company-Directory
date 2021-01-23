@@ -21,7 +21,7 @@
 		$output['status']['code'] = "300";
 		$output['status']['name'] = "failure";
 		$output['status']['description'] = "database unavailable";
-		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) * 1000 . " ms";
 		$output['data'] = [];
 
 		mysqli_close($conn);
@@ -56,7 +56,7 @@
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
-	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) * 1000 . " ms";
 	$output['data'] = [];
 	
 	mysqli_close($conn);
