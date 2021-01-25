@@ -14,11 +14,13 @@ $('#toAccessMenu').on('click', function() {
 
 $('#toAddEmp').on('click', function() {
 	$('#addMenu').css({display: 'none'});
+	getAllDeptSelect2();
 	$('#addEmpPage').css({display: 'block'});
 });
 
 $('#toAddDept').on('click', function() {
 	$('#addMenu').css({display: 'none'});
+	getAllLocSelect2();
 	$('#addDeptPage').css({display: 'block'});
 });
 
@@ -50,12 +52,14 @@ $('#toAllLoc').on('click', function() {
 $('#toSelEmp').on('click', function() {
 	$('#accessMenu').css({display: 'none'});
 	getAllEmpSelect();
+	getAllDeptSelect3();
 	$('#selEmpPage').css({display: 'block'});
 });
 
 $('#toSelDept').on('click', function() {
 	$('#accessMenu').css({display: 'none'});
 	getAllDeptSelect();
+	getAllLocSelect3();
 	$('#selDeptPage').css({display: 'block'});
 });
 
@@ -281,6 +285,61 @@ function getAllDeptSelect() {
 	
 };
 
+function getAllDeptSelect2() {
+
+	$.ajax({
+		url: "libs/php/getAllDepartments.php",
+		type: 'POST',
+		dataType: 'json',
+		
+		success: function(result) {
+
+			var data = result.data;
+
+			$('#addEmpDept').html('<select class="form-control" id="deptSelect2"></select>');
+
+			data.forEach(dept => {
+
+				$('#deptSelect2').append($("<option>").attr('value', dept.id).text(`${dept.name}`));
+
+			});
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+function getAllDeptSelect3() {
+
+	$.ajax({
+		url: "libs/php/getAllDepartments.php",
+		type: 'POST',
+		dataType: 'json',
+		
+		success: function(result) {
+
+			var data = result.data;
+
+			$('#getEmpDept').html('<select class="form-control" id="deptSelect3"></select>');
+
+			data.forEach(dept => {
+
+				$('#deptSelect3').append($("<option>").attr('value', dept.id).text(`${dept.name}`));
+
+			});
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+
 // Produce a select for all locations
 
 function getAllLocSelect() {
@@ -299,6 +358,60 @@ function getAllLocSelect() {
 			data.forEach(loc => {
 
 				$('#locSelect').append($("<option>").attr('value', loc.id).text(`${loc.name}`));
+
+			});
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+function getAllLocSelect2() {
+
+	$.ajax({
+		url: "libs/php/getAllLocations.php",
+		type: 'POST',
+		dataType: 'json',
+		
+		success: function(result) {
+
+			var data = result.data;
+
+			$('#addDeptLoc').html('<select class="form-control" id="locSelect2"></select>');
+
+			data.forEach(loc => {
+
+				$('#locSelect2').append($("<option>").attr('value', loc.id).text(`${loc.name}`));
+
+			});
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+function getAllLocSelect3() {
+
+	$.ajax({
+		url: "libs/php/getAllLocations.php",
+		type: 'POST',
+		dataType: 'json',
+		
+		success: function(result) {
+
+			var data = result.data;
+
+			$('#getDeptLoc').html('<select class="form-control" id="locSelect3"></select>');
+
+			data.forEach(loc => {
+
+				$('#locSelect3').append($("<option>").attr('value', loc.id).text(`${loc.name}`));
 
 			});
 				
