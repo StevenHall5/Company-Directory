@@ -107,8 +107,8 @@
 
             <div id="selEmpPage" class="accessPage">
                 <label for="empSelect">Select Employee:</label><br>
-                <span id="empSpan"></span><br><br>
-                <form>
+                <span id="empSpan"></span><br>
+                <form id="testForm">
                     <label for="getFName">First Name:</label><br>
                     <input type="text" id="getFName" name="getFName" required><br>
                     <label for="getLName">Last Name:</label><br>
@@ -131,19 +131,20 @@
 
             <div id="selDeptPage" class="accessPage">
                 <label for="deptSelect">Select Department:</label><br>
-                <span id="deptSpan"></span>
+                <span id="deptSpan"></span><br>
                 <form>
                     <label for="getDeptName">Name:</label><br>
                     <input type="text" id="getDeptName" name="getDeptName" required><br>
                     <label for="getDeptLoc">Location:</label><br>
                     <span id="getDeptLoc"></span>
-                    <!-- <select id="getDeptLoc" name="getDeptLoc" required></select> -->
                     <br><br>
                     <div class="centerButtons">
                         <input id="submitDept" class="saveButton" type="submit" value="Save">
                         <input id="deleteDept" class="deleteButton" type="button" value="Delete">
                     </div>
                 </form>
+                <br><br>
+                <table id="allEmpByDeptTable"></table><br>
                 <input class="backToAccessMenu" type="button" value="Back">
             </div>
 
@@ -158,6 +159,8 @@
                         <input id="deleteLoc" class="deleteButton" type="button" value="Delete">
                     </div>
                 </form>
+                <br><br>
+                <table id="allEmpByLocTable"></table><br>
                 <input class="backToAccessMenu" type="button" value="Back">
             </div>
 

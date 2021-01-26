@@ -13,14 +13,14 @@ $('#toAccessMenu').on('click', function() {
 // Add Menu Buttons
 
 $('#toAddEmp').on('click', function() {
-	$('#addMenu').css({display: 'none'});
 	getAllDeptSelect2();
+	$('#addMenu').css({display: 'none'});
 	$('#addEmpPage').css({display: 'block'});
 });
 
 $('#toAddDept').on('click', function() {
-	$('#addMenu').css({display: 'none'});
 	getAllLocSelect2();
+	$('#addMenu').css({display: 'none'});
 	$('#addDeptPage').css({display: 'block'});
 });
 
@@ -32,40 +32,40 @@ $('#toAddLoc').on('click', function() {
 // Access Menu Buttons
 
 $('#toAllEmp').on('click', function() {
-	$('#accessMenu').css({display: 'none'});
 	getAllEmpTable();
+	$('#accessMenu').css({display: 'none'});
 	$('#allEmpPage').css({display: 'block'});
 });
 
 $('#toAllDept').on('click', function() {
-	$('#accessMenu').css({display: 'none'});
 	getAllDeptTable();
+	$('#accessMenu').css({display: 'none'});
 	$('#allDeptPage').css({display: 'block'});
 });
 
 $('#toAllLoc').on('click', function() {
-	$('#accessMenu').css({display: 'none'});
 	getAllLocTable();
+	$('#accessMenu').css({display: 'none'});
 	$('#allLocPage').css({display: 'block'});
 });
 
 $('#toSelEmp').on('click', function() {
-	$('#accessMenu').css({display: 'none'});
 	getAllEmpSelect();
 	getAllDeptSelect3();
+	$('#accessMenu').css({display: 'none'});
 	$('#selEmpPage').css({display: 'block'});
 });
 
 $('#toSelDept').on('click', function() {
-	$('#accessMenu').css({display: 'none'});
 	getAllDeptSelect();
 	getAllLocSelect3();
+	$('#accessMenu').css({display: 'none'});
 	$('#selDeptPage').css({display: 'block'});
 });
 
 $('#toSelLoc').on('click', function() {
-	$('#accessMenu').css({display: 'none'});
 	getAllLocSelect();
+	$('#accessMenu').css({display: 'none'});
 	$('#selLocPage').css({display: 'block'});
 });
 
@@ -83,8 +83,11 @@ $('.backToAddMenu').on('click', function() {
 
 $('.backToAccessMenu').on('click', function() {
 	$('.accessPage').css({display: 'none'});
+	clearForm();
 	$('#accessMenu').css({display: 'block'});
 });
+
+
 
 // Produce a table with details for all employees
 
@@ -175,7 +178,7 @@ function getAllDeptTable() {
 				$('#allDeptTable').append(`<tr>
 					<td>${dept.id}</td>
 					<td>${dept.name}</td>
-					<td>${dept.locationID}</td>
+					<td>${dept.location}</td>
 				</tr>`);
 			});
 				
@@ -240,12 +243,17 @@ function getAllEmpSelect() {
 
 			var data = result.data;
 
-			$('#empSpan').html('<select class="form-control" id="empSelect"></select>');
+			$('#empSpan').html('<select class="form-control" id="empSelect"><option></option></select>');
 
 			data.forEach(emp => {
 
 				$('#empSelect').append($("<option>").attr('value', emp.id).text(`${emp.lastName}, ${emp.firstName}`));
 
+			});
+
+			$('#empSelect').change(function() {
+				var currVal = $('#empSelect').val();
+				getPersonnel(currVal);
 			});
 				
 		},
@@ -255,6 +263,8 @@ function getAllEmpSelect() {
 	}); 		
 	
 };
+
+
 
 // Produce a select for all departments
 
@@ -269,12 +279,18 @@ function getAllDeptSelect() {
 
 			var data = result.data;
 
-			$('#deptSpan').html('<select class="form-control" id="deptSelect"></select>');
+			$('#deptSpan').html('<select class="form-control" id="deptSelect"><option></option></select>');
 
 			data.forEach(dept => {
 
 				$('#deptSelect').append($("<option>").attr('value', dept.id).text(`${dept.name}`));
 
+			});
+
+			$('#deptSelect').change(function() {
+				var currVal = $('#deptSelect').val();
+				getDepartment(currVal);
+				getEmployeesByDepartment(currVal);
 			});
 				
 		},
@@ -330,6 +346,11 @@ function getAllDeptSelect3() {
 				$('#deptSelect3').append($("<option>").attr('value', dept.id).text(`${dept.name}`));
 
 			});
+
+			$('#deptSelect3').change(function() {
+				var currVal = $('#deptSelect3').val();
+				getDepartment2(currVal);
+			});
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -353,13 +374,21 @@ function getAllLocSelect() {
 
 			var data = result.data;
 
-			$('#locSpan').html('<select class="form-control" id="locSelect"></select>');
+			$('#locSpan').html('<select class="form-control" id="locSelect"><option></option></select>');
 
 			data.forEach(loc => {
 
 				$('#locSelect').append($("<option>").attr('value', loc.id).text(`${loc.name}`));
 
 			});
+
+			$('#locSelect').change(function() {
+				var thisVal = $('#locSelect').val();
+				var currVal = $('#locSelect')[0][thisVal].innerText;
+				$('#getLocName').attr({value: currVal});
+				getEmployeesByLocation(thisVal);
+			});
+			
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -421,4 +450,204 @@ function getAllLocSelect3() {
 		}
 	}); 		
 	
+};
+
+// Populates form with selected employee info
+
+function getPersonnel(id) {
+
+	$.ajax({
+		url: "libs/php/getPersonnel.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: id
+		},
+		
+		success: function(result) {
+
+			var data = result.data;
+
+			$('#getFName').attr({value: data.personnel[0].firstName});
+			$('#getLName').attr({value: data.personnel[0].lastName});
+			$('#getJobTitle').attr({value: data.personnel[0].jobTitle});
+			$('#getEmail').attr({value: data.personnel[0].email});
+			$('#deptSelect3').val(data.personnel[0].departmentID).change();
+			$('#getEmpLoc').attr({value: data.personnel[0].location});
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Populates form with selected department info
+
+function getDepartment(id) {
+
+	$.ajax({
+		url: "libs/php/getDepartmentByID.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: id
+		},
+		
+		success: function(result) {
+
+			var data = result.data[0];
+
+			$('#getDeptName').attr({value: data.name});
+			$('#locSelect3').val(data.locationID).change();
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+function getDepartment2(id) {
+
+	$.ajax({
+		url: "libs/php/getDepartmentByID.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: id
+		},
+		
+		success: function(result) {
+
+			var data = result.data[0];
+
+			$('#getEmpLoc').attr({value: data.location});
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Creates tables with all employees in each department
+
+function getEmployeesByDepartment(id) {
+
+	$.ajax({
+		url: "libs/php/getEmployeesByDepartment.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: id
+		},
+		
+		success: function(result) {
+
+			var data = result.data;
+
+			$('#allEmpByDeptTable').html(`
+			<thead>
+				<tr>
+					<th>
+						First Name
+					</th>
+					<th>
+						Last Name
+					</th>
+					<th>
+						Job Title
+					</th>
+					<th>
+						Email
+					</th>
+				</tr>
+			</thead>`);
+
+			data.forEach(emp => {
+
+				$('#allEmpByDeptTable').append(`<tr>
+					<td>${emp.firstName}</td>
+					<td>${emp.lastName}</td>
+					<td>${emp.jobTitle}</td>
+					<td>${emp.email}</td>
+					</tr>`);
+			});
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Creates tables with all employees in each location
+
+function getEmployeesByLocation(id) {
+
+	$.ajax({
+		url: "libs/php/getEmployeesByLocation.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: id
+		},
+		
+		success: function(result) {
+
+			var data = result.data;
+
+			$('#allEmpByLocTable').html(`
+			<thead>
+				<tr>
+					<th>
+						First Name
+					</th>
+					<th>
+						Last Name
+					</th>
+					<th>
+						Job Title
+					</th>
+					<th>
+						Email
+					</th>
+					<th>
+						Department
+					</th>
+				</tr>
+			</thead>`);
+
+			data.forEach(emp => {
+
+				$('#allEmpByLocTable').append(`<tr>
+					<td>${emp.firstName}</td>
+					<td>${emp.lastName}</td>
+					<td>${emp.jobTitle}</td>
+					<td>${emp.email}</td>
+					<td>${emp.department}</td>
+					</tr>`);
+			});
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Clears forms of data
+
+function clearForm() {
+	$(':text').attr({value: ""});
+	$('input[type=email]').attr({value: ""});
+	$('select').val('');
+	$('#allEmpByDeptTable').html("");
+	$('#allEmpByLocTable').html("");
 };

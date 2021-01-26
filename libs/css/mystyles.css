@@ -120,7 +120,7 @@ input {
     width: 100%;
 }
 
-#allEmpTable, #allDeptTable, #allLocTable {
+#allEmpTable, #allDeptTable, #allLocTable, #allEmpByDeptTable, #allEmpByLocTable {
     width: 100%;
     min-width: 90%;
     border: 1px solid black;
