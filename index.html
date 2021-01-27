@@ -33,21 +33,20 @@
 
             <div id="addEmpPage" class="addPage">
                 <input class="backToAddMenu" type="button" value="Back">
-                <form>
+                <form id="addEmpForm" action="libs/php/addEmployee.php" method="POST">
                     <label for="addFName">First Name:</label><br>
-                    <input type="text" id="addFName" name="addFName" required><br>
+                    <input type="text" id="addFName" name="addFName" required class="textField"><br>
                     <label for="addLName">Last Name:</label><br>
-                    <input type="text" id="addLName" name="addLName" required><br>
+                    <input type="text" id="addLName" name="addLName" required class="textField"><br>
                     <label for="addJobTitle">Job Title:</label><br>
-                    <input type="text" id="addJobTitle" name="addJobTitle"><br>
+                    <input type="text" id="addJobTitle" name="addJobTitle" class="textField"><br>
                     <label for="addEmail" >E-mail:</label><br>
-                    <input type="email" id="addEmail" name="addEmail"><br>
-                    <label for="addEmpDept">Department:</label><br>
+                    <input type="email" id="addEmail" name="addEmail" class="textField"><br>
+                    <label for="deptSelect2">Department:</label><br>
                     <span id="addEmpDept"></span>
-                    <!-- <select id="addEmpDept" name="addEmpDept" required></select> -->
                     <br><br>
                     <div class="centerButtons">
-                        <input id="submitAddEmp" class="saveButton" type="submit" value="Add">
+                        <input id="submitAddEmp" class="saveButton" type="button" value="Add">
                     </div>   
                 </form>  
             </div>
@@ -55,13 +54,12 @@
             <div id="addDeptPage" class="addPage">
                 <form>
                     <label for="AddDept">Department:</label><br>
-                    <input type="text" id="AddDept" name="AddDept" required><br>
-                    <label for="addDeptLoc">Location:</label><br>
+                    <input type="text" id="AddDept" name="AddDept" required class="textField"><br>
+                    <label for="locSelect2">Location:</label><br>
                     <span id="addDeptLoc"></span>
-                    <!-- <select id="addDeptLoc" name="addDeptLoc" required></select> -->
                     <br><br>
                     <div class="centerButtons">
-                        <input id="submitAddDept" class="saveButton" type="submit" value="Add">
+                        <input id="submitAddDept" class="saveButton" type="button" value="Add">
                     </div>
                 </form>
                 <input class="backToAddMenu" type="button" value="Back">
@@ -70,9 +68,9 @@
             <div id="addLocPage" class="addPage">
                 <form>
                     <label for="loc">Location:</label><br>
-                    <input type="text" id="loc" name="loc" required><br><br>
+                    <input type="text" id="loc" name="loc" required class="textField"><br><br>
                     <div class="centerButtons">
-                        <input id="submitAddLoc" class="saveButton" type="submit" value="Add">
+                        <input id="submitAddLoc" class="saveButton" type="button" value="Add">
                     </div>
                 </form>
                 <input class="backToAddMenu" type="button" value="Back">
@@ -110,19 +108,19 @@
                 <span id="empSpan"></span><br>
                 <form id="testForm">
                     <label for="getFName">First Name:</label><br>
-                    <input type="text" id="getFName" name="getFName" required><br>
+                    <input type="text" id="getFName" name="getFName" required class="textField"><br>
                     <label for="getLName">Last Name:</label><br>
-                    <input type="text" id="getLName" name="getLName" required><br>
+                    <input type="text" id="getLName" name="getLName" required class="textField"><br>
                     <label for="getJobTitle">Job Title:</label><br>
-                    <input type="text" id="getJobTitle" name="getJobTitle"><br>
+                    <input type="text" id="getJobTitle" name="getJobTitle" class="textField"><br>
                     <label for="getEmail" >E-mail:</label><br>
-                    <input type="email" id="getEmail" name="getEmail"><br>
+                    <input type="email" id="getEmail" name="getEmail" class="textField"><br>
                     <label for="getEmpDept">Department:</label><br>
                     <span id="getEmpDept"></span>
                     <label for="getEmpLoc">Location:</label><br>
-                    <input type="text" id="getEmpLoc" name="getEmpLoc" readonly><br><br>
+                    <input type="text" id="getEmpLoc" name="getEmpLoc" readonly class="textField"><br><br>
                     <div class="centerButtons">
-                        <input id="submitEmp" class="saveButton" type="submit" value="Save">
+                        <input id="submitEmp" class="saveButton" type="button" value="Save">
                         <input id="deleteEmp" class="deleteButton" type="button" value="Delete">
                     </div>
                 </form>
@@ -134,12 +132,12 @@
                 <span id="deptSpan"></span><br>
                 <form>
                     <label for="getDeptName">Name:</label><br>
-                    <input type="text" id="getDeptName" name="getDeptName" required><br>
+                    <input type="text" id="getDeptName" name="getDeptName" required class="textField"><br>
                     <label for="getDeptLoc">Location:</label><br>
                     <span id="getDeptLoc"></span>
                     <br><br>
                     <div class="centerButtons">
-                        <input id="submitDept" class="saveButton" type="submit" value="Save">
+                        <input id="submitDept" class="saveButton" type="button" value="Save">
                         <input id="deleteDept" class="deleteButton" type="button" value="Delete">
                     </div>
                 </form>
@@ -153,9 +151,9 @@
                 <span id="locSpan"></span>
                 <form>
                     <label for="getLocName">Name:</label><br>
-                    <input type="text" id="getLocName" name="getLocName" required><br><br>
+                    <input type="text" id="getLocName" name="getLocName" required class="textField"><br><br>
                     <div class="centerButtons">
-                        <input id="submitLoc" class="saveButton" type="submit" value="Save">
+                        <input id="submitLoc" class="saveButton" type="button" value="Save">
                         <input id="deleteLoc" class="deleteButton" type="button" value="Delete">
                     </div>
                 </form>

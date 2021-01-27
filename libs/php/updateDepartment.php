@@ -1,8 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=1
-
 	// remove next two lines for production
 	
 	ini_set('display_errors', 'On');
@@ -34,7 +31,7 @@
 
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-	$query = 'INSERT INTO department (name, locationID) VALUES("' . $_REQUEST['name'] . '", ' . $_REQUEST['locationID'] . ')';
+	$query = 'UPDATE department SET name = "' . $_REQUEST['name'] . '", locationID = ' . $_REQUEST['locationID'] . ' WHERE id = ' . $_REQUEST['id'];
 
 	$result = $conn->query($query);
 	

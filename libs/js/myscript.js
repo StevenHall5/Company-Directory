@@ -1,3 +1,5 @@
+var currentID = 0;
+
 // Main Menu Buttons
 
 $('#toAddMenu').on('click', function() {
@@ -78,6 +80,7 @@ $('.backToMainMenu').on('click', function() {
 
 $('.backToAddMenu').on('click', function() {
 	$('.addPage').css({display: 'none'});
+	clearForm();
 	$('#addMenu').css({display: 'block'});
 });
 
@@ -87,7 +90,145 @@ $('.backToAccessMenu').on('click', function() {
 	$('#accessMenu').css({display: 'block'});
 });
 
+// Add Buttons
 
+$('#submitAddEmp').on('click', function() {
+	addEmpFunc();
+});
+
+$('#submitAddDept').on('click', function() {
+	addDeptFunc();
+});
+
+$('#submitAddLoc').on('click', function() {
+	addLocFunc();
+});
+
+// Save Buttons
+
+$('#submitEmp').on('click', function() {
+	updateEmpFunc();
+});
+
+$('#submitDept').on('click', function() {
+	updateDeptFunc();
+});
+
+$('#submitLoc').on('click', function() {
+	updateLocFunc();
+});
+
+// Clears forms of data
+
+function clearForm() {
+	$('.textField').val("");
+	$('input[type=email]').val("");
+	$('select').val('');
+	$('#allEmpByDeptTable').html("");
+	$('#allEmpByLocTable').html("");
+};
+
+// CREATE FUNCTIONS
+
+// Add an employee
+
+function addEmpFunc() {
+
+	$.ajax({
+		url: "libs/php/insertEmployee.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			addFName: $('#addFName').val(),
+			addLName: $('#addLName').val(),
+			addJobTitle: $('#addJobTitle').val(),
+			addEmail: $('#addEmail').val(),
+			deptSelect2: $('#deptSelect2').val()
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("New Employee Added");
+				clearForm();
+			} else {
+				alert("Error occurred, please try again");
+			}
+	
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Add a department
+
+function addDeptFunc() {
+
+	$.ajax({
+		url: "libs/php/insertDepartment.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			name: $('#AddDept').val(),
+			locationID: $('#locSelect2').val()
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("New Department Added");
+				clearForm();
+			} else {
+				alert("Error occurred, please try again");
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Add a location
+
+function addLocFunc() {
+
+	$.ajax({
+		url: "libs/php/insertLocation.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			name: $('#loc').val(),
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("New Location Added");
+				clearForm();
+			} else {
+				alert("Error occurred, please try again");
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// READ FUNCTIONS
 
 // Produce a table with details for all employees
 
@@ -312,7 +453,7 @@ function getAllDeptSelect2() {
 
 			var data = result.data;
 
-			$('#addEmpDept').html('<select class="form-control" id="deptSelect2"></select>');
+			$('#addEmpDept').html('<select class="form-control" id="deptSelect2" name="deptSelect2"></select>');
 
 			data.forEach(dept => {
 
@@ -385,8 +526,10 @@ function getAllLocSelect() {
 			$('#locSelect').change(function() {
 				var thisVal = $('#locSelect').val();
 				var currVal = $('#locSelect')[0][thisVal].innerText;
-				$('#getLocName').attr({value: currVal});
+				$('#getLocName').val(currVal);
 				getEmployeesByLocation(thisVal);
+
+				currentID = thisVal;
 			});
 			
 				
@@ -456,6 +599,8 @@ function getAllLocSelect3() {
 
 function getPersonnel(id) {
 
+	currentID = id;
+
 	$.ajax({
 		url: "libs/php/getPersonnel.php",
 		type: 'POST',
@@ -468,12 +613,12 @@ function getPersonnel(id) {
 
 			var data = result.data;
 
-			$('#getFName').attr({value: data.personnel[0].firstName});
-			$('#getLName').attr({value: data.personnel[0].lastName});
-			$('#getJobTitle').attr({value: data.personnel[0].jobTitle});
-			$('#getEmail').attr({value: data.personnel[0].email});
+			$('#getFName').val(data.personnel[0].firstName);
+			$('#getLName').val(data.personnel[0].lastName);
+			$('#getJobTitle').val(data.personnel[0].jobTitle);
+			$('#getEmail').val(data.personnel[0].email);
 			$('#deptSelect3').val(data.personnel[0].departmentID).change();
-			$('#getEmpLoc').attr({value: data.personnel[0].location});
+			$('#getEmpLoc').val(data.personnel[0].location);
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -487,6 +632,8 @@ function getPersonnel(id) {
 
 function getDepartment(id) {
 
+	currentID = id;
+
 	$.ajax({
 		url: "libs/php/getDepartmentByID.php",
 		type: 'POST',
@@ -499,7 +646,7 @@ function getDepartment(id) {
 
 			var data = result.data[0];
 
-			$('#getDeptName').attr({value: data.name});
+			$('#getDeptName').val(data.name);
 			$('#locSelect3').val(data.locationID).change();
 				
 		},
@@ -524,7 +671,7 @@ function getDepartment2(id) {
 
 			var data = result.data[0];
 
-			$('#getEmpLoc').attr({value: data.location});
+			$('#getEmpLoc').val(data.location);
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -642,12 +789,108 @@ function getEmployeesByLocation(id) {
 	
 };
 
-// Clears forms of data
+// UPDATE FUNCTIONS
 
-function clearForm() {
-	$(':text').attr({value: ""});
-	$('input[type=email]').attr({value: ""});
-	$('select').val('');
-	$('#allEmpByDeptTable').html("");
-	$('#allEmpByLocTable').html("");
+// Update employee info
+
+function updateEmpFunc() {
+
+	$.ajax({
+		url: "libs/php/updateEmployee.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			firstName: $('#getFName').val(),
+			lastName: $('#getLName').val(),
+			jobTitle: $('#getJobTitle').val(),
+			email: $('#getEmail').val(),
+			departmentID: $('#deptSelect3').val(),
+			id: currentID
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("Employee Details Updated");
+				clearForm();
+				getAllEmpSelect();
+			} else {
+				alert("Error occurred, please try again");
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Update department info
+
+function updateDeptFunc() {
+
+	$.ajax({
+		url: "libs/php/updateDepartment.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			name: $('#getDeptName').val(),
+			locationID: $('#locSelect3').val(),
+			id: currentID
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("Department Details Updated");
+				clearForm();
+				getAllDeptSelect();
+			} else {
+				alert("Error occurred, please try again");
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Update location info
+
+function updateLocFunc() {
+
+	$.ajax({
+		url: "libs/php/updateLocation.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			name: $('#getLocName').val(),
+			id: currentID
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("Location Details Updated");
+				clearForm();
+				getAllLocSelect();
+			} else {
+				alert("Error occurred, please try again");
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
 };

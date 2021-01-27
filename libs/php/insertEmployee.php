@@ -1,7 +1,6 @@
 <?php
 
 	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=1
 
 	// remove next two lines for production
 	
@@ -34,7 +33,7 @@
 
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-	$query = 'INSERT INTO department (name, locationID) VALUES("' . $_REQUEST['name'] . '", ' . $_REQUEST['locationID'] . ')';
+	$query = 'INSERT INTO personnel (firstName, lastName, jobTitle, email, departmentID) VALUES("' . $_REQUEST["addFName"] . '", "' . $_REQUEST['addLName'] . '", "' . $_REQUEST['addJobTitle'] . '", "' . $_REQUEST["addEmail"] . '", ' . $_REQUEST["deptSelect2"] . ')';
 
 	$result = $conn->query($query);
 	
