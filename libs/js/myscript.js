@@ -93,29 +93,72 @@ $('.backToAccessMenu').on('click', function() {
 // Add Buttons
 
 $('#submitAddEmp').on('click', function() {
-	addEmpFunc();
+	if (confirm("Are you sure you want to add this employee?")) {
+		addEmpFunc();
+	  } else {
+		alert("Employee not added");
+	  }
+	
 });
 
 $('#submitAddDept').on('click', function() {
-	addDeptFunc();
+	if (confirm("Are you sure you want to add this department?")) {
+		addDeptFunc();
+	  } else {
+		alert("Department not added");
+	  }
 });
 
 $('#submitAddLoc').on('click', function() {
-	addLocFunc();
+	if (confirm("Are you sure you want to add this location?")) {
+		addLocFunc();
+	  } else {
+		alert("Location not added");
+	  }
 });
 
 // Save Buttons
 
 $('#submitEmp').on('click', function() {
-	updateEmpFunc();
+	if (confirm("Are you sure you want to update details for this employee?")) {
+		updateEmpFunc();
+	  } else {
+		alert("Details not updated");
+	  }
 });
 
 $('#submitDept').on('click', function() {
-	updateDeptFunc();
+	if (confirm("Are you sure you want to update details for this department?")) {
+		updateDeptFunc();
+	  } else {
+		alert("Details not updated");
+	  }
 });
 
 $('#submitLoc').on('click', function() {
-	updateLocFunc();
+	if (confirm("Are you sure you want to update details for this location?")) {
+		updateLocFunc();
+	  } else {
+		alert("Details not updated");
+	  }
+});
+
+// Delete Buttons
+
+$('#deleteEmp').on('click', function() {
+	if (confirm("Are you sure you want to remove this employee?")) {
+		deleteEmpFunc();
+	} else {
+		alert("Employee not removed");
+	}
+});
+
+$('#deleteDept').on('click', function() {
+	delDeptCheck();
+});
+
+$('#deleteLoc').on('click', function() {
+	delLocCheck();
 });
 
 // Clears forms of data
@@ -881,6 +924,174 @@ function updateLocFunc() {
 
 			if (statusCode === "200") {
 				alert("Location Details Updated");
+				clearForm();
+				getAllLocSelect();
+			} else {
+				alert("Error occurred, please try again");
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// DELETE FUNCTIONS
+
+// Delete employee info
+
+function deleteEmpFunc() {
+
+	$.ajax({
+		url: "libs/php/deleteEmployee.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: currentID
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("Employee Deleted");
+				clearForm();
+				getAllEmpSelect();
+			} else {
+				alert("Error occurred, please try again");
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Verify department can be safely deleted
+
+function delDeptCheck() {
+
+	$.ajax({
+		url: "libs/php/countDepartments.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: currentID
+		},
+		
+		success: function(result) {
+
+			var data = result.data[0].totalPeople;
+
+			if (data === "0") {
+				if (confirm("Are you sure you want to remove this department?")) {
+					deleteDeptFunc();
+				} else {
+					alert("Department not removed");
+				}
+			} else {
+				alert("This department has employees currently working here. Move staff to new positions before deleting.")
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Delete department info
+
+function deleteDeptFunc() {
+
+	console.log(currentID);
+
+	$.ajax({
+		url: "libs/php/deleteDepartment.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: currentID
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("Department Deleted");
+				clearForm();
+				getAllDeptSelect();
+			} else {
+				alert("Error occurred, please try again");
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Verify location can be safely deleted
+
+function delLocCheck() {
+
+	$.ajax({
+		url: "libs/php/countLocations.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: currentID
+		},
+		
+		success: function(result) {
+
+			var data = result.data[0].totalDepts;
+
+			if (data === "0") {
+				if (confirm("Are you sure you want to remove this location?")) {
+					deleteLocFunc();
+				} else {
+					alert("Location not removed");
+				}
+			} else {
+				alert("This location has departments currently assigned to it. Move departments to new locations before deleting.")
+			}
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
+// Delete location info
+
+function deleteLocFunc() {
+
+	$.ajax({
+		url: "libs/php/deleteLocation.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: currentID
+		},
+		
+		success: function(result) {
+
+			var statusCode = result.status.code;
+
+			if (statusCode === "200") {
+				alert("Location Deleted");
 				clearForm();
 				getAllLocSelect();
 			} else {

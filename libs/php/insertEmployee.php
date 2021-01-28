@@ -1,12 +1,5 @@
 <?php
 
-	// example use from browser
-
-	// remove next two lines for production
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("config.php");
@@ -30,8 +23,6 @@
 		exit;
 
 	}	
-
-	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
 	$query = 'INSERT INTO personnel (firstName, lastName, jobTitle, email, departmentID) VALUES("' . $_REQUEST["addFName"] . '", "' . $_REQUEST['addLName'] . '", "' . $_REQUEST['addJobTitle'] . '", "' . $_REQUEST["addEmail"] . '", ' . $_REQUEST["deptSelect2"] . ')';
 

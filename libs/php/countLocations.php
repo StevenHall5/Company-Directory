@@ -24,7 +24,7 @@
 
 	}	
 
-	$query = 'SELECT id, name FROM location';
+	$query = 'SELECT COUNT(*) as totalDepts FROM department WHERE locationID = ' . $_REQUEST['id'];
 
 	$result = $conn->query($query);
 	

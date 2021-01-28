@@ -24,7 +24,7 @@
 
 	}	
 
-	$query = 'SELECT id, name FROM location';
+	$query = 'DELETE FROM personnel WHERE id = ' . $_REQUEST['id'];
 
 	$result = $conn->query($query);
 	
@@ -42,20 +42,12 @@
 		exit;
 
 	}
-   
-   	$data = [];
-
-	while ($row = mysqli_fetch_assoc($result)) {
-
-		array_push($data, $row);
-
-	}
 
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) * 1000 . " ms";
-	$output['data'] = $data;
+	$output['data'] = [];
 	
 	mysqli_close($conn);
 

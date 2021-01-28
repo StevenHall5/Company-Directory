@@ -24,7 +24,7 @@
 
 	}	
 
-	$query = 'SELECT id, name FROM location';
+	$query = 'SELECT COUNT(*) as totalPeople FROM personnel WHERE departmentID = ' . $_REQUEST['id'];
 
 	$result = $conn->query($query);
 	

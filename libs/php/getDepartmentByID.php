@@ -1,14 +1,5 @@
 <?php
 
-
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/getDepartmentByID.php?id=2
-	
-	// remove next two lines for production
-
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("config.php");
@@ -30,8 +21,6 @@
 		exit;
 
 	}	
-
-	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
 	$query = 'SELECT d.id, d.name, d.locationID, l.name as location FROM department d LEFT JOIN location l ON (l.id = d.locationID) WHERE d.id = ' . $_REQUEST['id'];
 

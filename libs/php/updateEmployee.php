@@ -1,10 +1,5 @@
 <?php
 
-	// remove next two lines for production
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("config.php");
@@ -28,8 +23,6 @@
 		exit;
 
 	}	
-
-	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
 	$query = 'UPDATE personnel SET firstName = "' . $_REQUEST['firstName'] . '", lastName = "' . $_REQUEST['lastName'] . '", jobTitle = "' . $_REQUEST['jobTitle'] . '", email = "' . $_REQUEST['email'] . '", departmentID = ' . $_REQUEST['departmentID'] . ' WHERE id = ' . $_REQUEST['id'];
 
