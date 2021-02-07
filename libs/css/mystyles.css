@@ -2,21 +2,19 @@ html, body{
     padding: 0;
     margin: 0;
     height: 100%;
-    background-color:rgb(240, 242, 247);
+    font-family: 'Varela Round', sans-serif;
 }
 
 header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 10%;
     width: 100%;
-    text-align: center;
     position: fixed;
     z-index: 2;
     background-color: cornflowerblue;
     color: white;
-}
-
-h1 {
-    margin: 1% auto;
 }
 
 main {
@@ -26,69 +24,66 @@ main {
     width: 100%;
 }
 
-#mainMenu {
-    height: 100%;
-    width: 100%;
-    display: block;
+#mainSelector {
+    width: auto;
+    margin: auto;
 }
 
-#addMenu, #accessMenu {
-    height: 100%;
-    width: 100%;
+#addDeptForm, #addLocForm {
     display: none;
 }
 
-#addEmpPage, #addDeptPage, #addLocPage {
-    height: 100%;
-    width: 100%;
-    display: none;
-    padding: 5% 5%;
-}
-
-#allEmpPage, #allDeptPage, #allLocPage, #selEmpPage, #selDeptPage, #selLocPage {
-    height: 100%;
-    width: 100%;
-    display: none;
-    padding: 5% 5%;
-}
-
-#toAddMenu, #toAccessMenu {
-    width: 80%;
-    height: 20%;
-    margin: 5rem 10%;
-    background-color: white;
-    font-size: larger;
-    border-radius: 15px;
-}
-
-#toAddEmp, #toAddDept, #toAddLoc {
-    width: 80%;
-    height: 20%;
-    margin: 2rem 10%;
-    background-color: white;
-    font-size: larger;
-    border-radius: 15px;
-}
-
-#toAllEmp, #toAllDept, #toAllLoc, #toSelEmp, #toSelDept, #toSelLoc {
-    width: 30%;
-    height: 20%;
-    margin: 7.5% 1%;
-    background-color: white;
-    font-size: larger;
-    border-radius: 15px;
-    white-space: normal;
-}
-
-.backToMainMenu, .backToAddMenu, .backToAccessMenu {
+#topButtons {
     position: fixed;
     float: right;
-    width: 15%;
-    right: 2%;
-    top: 2%;
-    background-color: white;
-    border-radius: 5px;
+    right: 3%;
+    top: 3%;
+    color: white;
     z-index: 3;
+}
+
+.fa-sync, .fa-plus-circle {
+    width: 1.5rem !important;
+    height: auto !important;
+    margin: 0 0.5rem;
+}
+
+@media screen and (max-width: 370px) {
+    .fa-sync, .fa-plus-circle {
+        width: 1.5rem !important;
+        height: auto !important;
+        margin: 0 0.1rem !important;
+    }
+}
+
+.fa-pen {
+    color: #008000;
+}
+
+.fa-trash {
+    color: #f70303;
+}
+
+.fa-check-circle {
+    width: 80px !important;
+    height: 80px !important;
+    color: #6fb32b;
+    width: 80px;
+	height: 80px;
+	margin: 0 auto;
+	z-index: 9;
+	text-align: center;
+}
+
+.fa-times-circle {
+    width: 80px !important;
+    height: 80px !important;
+    color: #f15e5e;
+    width: 80px;
+	height: 80px;
+	margin: 0 auto;
+	z-index: 9;
+	text-align: center;
 }
 
 .saveButton, .deleteButton {
@@ -115,31 +110,107 @@ input {
     width: 100%;
 }
 
-#allEmpTable, #allDeptTable, #allLocTable, #allEmpByDeptTable, #allEmpByLocTable {
-    width: 100%;
-    min-width: 90%;
-    border: 1px solid black;
-    margin-bottom: 5%;
+.modal-confirm {		
+	color: #636363;
+	max-width: 400px;
+}
+.modal-confirm .modal-content {
+	padding: 20px;
+	border-radius: 5px;
+	border: none;
+	text-align: center;
+	font-size: 14px;
+}
+.modal-confirm .modal-header {
+	border-bottom: none;   
+	position: relative;
+}
+.modal-confirm h4 {
+	text-align: center;
+	font-size: 26px;
+	margin: 30px 0 -10px;
+}
+.modal-confirm .close {
+	position: absolute;
+	top: -5px;
+	right: -2px;
+}
+.modal-confirm .modal-body {
+	color: #999;
+}
+.modal-confirm .modal-footer {
+	border: none;
+	text-align: center;		
+	border-radius: 5px;
+	font-size: 13px;
+	padding: 10px 15px 25px;
+}
+.modal-confirm .modal-footer a {
+	color: #999;
+}		
+.modal-confirm .icon-box {
+	width: 80px;
+	height: 80px;
+	margin: 0 auto;
+	border-radius: 50%;
+	z-index: 9;
+	text-align: center;
+	border: 3px solid #f15e5e;
+}
+.modal-confirm .icon-box i {
+	color: #f15e5e;
+	font-size: 46px;
+	display: inline-block;
+	margin-top: 13px;
+}
+.modal-confirm .btn, .modal-confirm .btn:active {
+	color: #fff;
+	border-radius: 4px;
+	background: #60c7c1;
+	text-decoration: none;
+	transition: all 0.4s;
+	line-height: normal;
+	min-width: 120px;
+	border: none;
+	min-height: 40px;
+	border-radius: 3px;
+	margin: 0 5px;
+}
+.modal-confirm .btn-secondary {
+	background: #c1c1c1;
+}
+.modal-confirm .btn-secondary:hover, .modal-confirm .btn-secondary:focus {
+	background: #a8a8a8;
+}
+.modal-confirm .btn-danger {
+	background: #f15e5e;
+}
+.modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+	background: #ee3535;
+}
+.trigger-btn {
+	display: inline-block;
+	margin: 100px auto;
 }
 
-th {
-    background-color: rgb(135, 166, 224);
-    color: white;
+.modal-confirm .icon-box2 {
+	width: 80px;
+	height: 80px;
+	margin: 0 auto;
+	border-radius: 50%;
+	z-index: 9;
+	text-align: center;
+	border: 3px solid #82ce34;
 }
-
-td {
-    padding: 5px 5px;
+.modal-confirm .icon-box2 i {
+	color: #82ce34;
+	font-size: 46px;
+	display: inline-block;
+	margin-top: 13px;
 }
-
-tr:nth-child(even) {background-color: #f2f2f2;}
-tr:nth-child(odd) {background-color: #FFF;}
-
-#allEmpDiv {
-    overflow-x:auto;
+.modal-confirm .btn-confirm {
+	background: #82ce34;
 }
-
-@media screen and (max-width: 480px) {
-    #toAllEmp, #toAllDept, #toAllLoc, #toSelEmp, #toSelDept, #toSelLoc {
-        font-size: medium;
-    }
-  }
+.modal-confirm .btn-confirm:hover, .modal-confirm .btn-confirm:focus {
+	background: #6fb32b;
+}

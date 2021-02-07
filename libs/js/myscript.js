@@ -1,164 +1,177 @@
 var currentID = 0;
 
-// Main Menu Buttons
+$('#dataSpan').on('click', 'td', function() {
 
-$('#toAddMenu').on('click', function() {
-	$('#mainMenu').css({display: 'none'});
-	$('#addMenu').css({display: 'block'});
+	switch (this.id.slice(0, 6)) {
+
+		case "empedt":
+			getAllDeptSelect3();
+			var thisedit = (this.id).slice(6);
+			getPersonnel(thisedit);
+			$('#editModal').modal('show');
+			$('#submitEmp').on('click', function() {
+				if (!$('#getFName').val() || !$('#getLName').val()) {
+					$('#dataNeededModal').modal('show');
+				} else {
+					$('#editEmpModal').modal('show');
+				}			
+			});
+			
+			$('#saveEmpButton').on('click', function() {
+				updateEmpFunc(thisedit);
+			});
+		break;
+
+		case "empdel":
+			$('#delEmpModal').modal('show');
+			var thisdel = (this.id).slice(6);
+			$('#delEmpButton').on('click', function() {
+				deleteEmpFunc(thisdel);
+			});
+		break;
+
+		case "dptedt":
+			getAllLocSelect3();
+			var thisedit = (this.id).slice(6);
+			getDepartment(thisedit);
+			$('#editDeptModal').modal('show');
+			$('#submitDept').on('click', function() {
+				if (!$('#getDeptName').val()) {
+					$('#dataNeededModal').modal('show');
+				} else {
+					$('#editDeptConfirmModal').modal('show');
+				}
+			});
+			$('#saveDeptButton').on('click', function() {
+				updateDeptFunc(thisedit);
+			});
+		break;
+
+		case "dptdel":
+			var thisdel = (this.id).slice(6);
+			delDeptCheck(thisdel);
+		break;
+			
+		case "dptexp":
+			var thisexp = (this.id).slice(6);
+			if ($(`#arrowDown${thisexp}`)[0].dataset.icon === "caret-down") {
+				$(`#arrowDown${thisexp}`)[0].dataset.icon = "caret-up";
+				$(`#deptRow${thisexp}`).after(`<tr id="newDeptRow${thisexp}"><td colspan="6"><table class="table table-hover" id="allEmpByDeptTable"></table></td></tr>`);
+				getEmployeesByDepartment(thisexp);
+			} else {
+				$(`#arrowDown${thisexp}`)[0].dataset.icon = "caret-down";
+				$(`#newDeptRow${thisexp}`).html('');
+			}
+		break;
+
+		case "locedt":
+			var thisedit = (this.id).slice(6);
+			getLocation(thisedit);
+			$('#editLocModal').modal('show');
+			$('#submitLoc').on('click', function() {
+				if (!$('#getLocName').val()) {
+					$('#dataNeededModal').modal('show');
+				} else {
+					$('#editLocConfirmModal').modal('show');
+				}
+			});
+			$('#saveLocButton').on('click', function() {
+				updateLocFunc(thisedit);
+			});
+		break;
+
+		case "locdel":
+			var thisdel = (this.id).slice(6);
+			delLocCheck(thisdel);
+		break;
+			
+		case "locexp":
+			var thisexp = (this.id).slice(6);
+			if ($(`#arrowDown${thisexp}`)[0].dataset.icon === "caret-down") {
+				$(`#arrowDown${thisexp}`)[0].dataset.icon = "caret-up";
+				$(`#locRow${thisexp}`).after(`<tr id="newLocRow${thisexp}"><td colspan="6"><table class="table table-hover" id="allEmpByLocTable"></table></td></tr>`);
+				getEmployeesByLocation(thisexp);
+			} else {
+				$(`#arrowDown${thisexp}`)[0].dataset.icon = "caret-down";
+				$(`#newLocRow${thisexp}`).html('');
+			}
+		break;										
+	}
+
 });
 
-$('#toAccessMenu').on('click', function() {
-	$('#mainMenu').css({display: 'none'});
-	$('#accessMenu').css({display: 'block'});
-});
-
-// Add Menu Buttons
-
-$('#toAddEmp').on('click', function() {
-	getAllDeptSelect2();
-	$('#addMenu').css({display: 'none'});
-	$('#addEmpPage').css({display: 'block'});
-});
-
-$('#toAddDept').on('click', function() {
-	getAllLocSelect2();
-	$('#addMenu').css({display: 'none'});
-	$('#addDeptPage').css({display: 'block'});
-});
-
-$('#toAddLoc').on('click', function() {
-	$('#addMenu').css({display: 'none'});
-	$('#addLocPage').css({display: 'block'});
-});
-
-// Access Menu Buttons
-
-$('#toAllEmp').on('click', function() {
+$('#refreshPageButton').on('click', function() {
 	getAllEmpTable();
-	$('#accessMenu').css({display: 'none'});
-	$('#allEmpPage').css({display: 'block'});
-});
-
-$('#toAllDept').on('click', function() {
-	getAllDeptTable();
-	$('#accessMenu').css({display: 'none'});
-	$('#allDeptPage').css({display: 'block'});
-});
-
-$('#toAllLoc').on('click', function() {
-	getAllLocTable();
-	$('#accessMenu').css({display: 'none'});
-	$('#allLocPage').css({display: 'block'});
-});
-
-$('#toSelEmp').on('click', function() {
-	getAllEmpSelect();
-	getAllDeptSelect3();
-	$('#accessMenu').css({display: 'none'});
-	$('#selEmpPage').css({display: 'block'});
-});
-
-$('#toSelDept').on('click', function() {
-	getAllDeptSelect();
-	getAllLocSelect3();
-	$('#accessMenu').css({display: 'none'});
-	$('#selDeptPage').css({display: 'block'});
-});
-
-$('#toSelLoc').on('click', function() {
-	getAllLocSelect();
-	$('#accessMenu').css({display: 'none'});
-	$('#selLocPage').css({display: 'block'});
-});
-
-// Back Buttons
-
-$('.backToMainMenu').on('click', function() {
-	$('.majorMenu').css({display: 'none'});
-	$('#mainMenu').css({display: 'block'});
-});
-
-$('.backToAddMenu').on('click', function() {
-	$('.addPage').css({display: 'none'});
 	clearForm();
-	$('#addMenu').css({display: 'block'});
 });
 
-$('.backToAccessMenu').on('click', function() {
-	$('.accessPage').css({display: 'none'});
-	clearForm();
-	$('#accessMenu').css({display: 'block'});
+$('#addButton').on('click', function() {
+	getAllDeptSelect2();
+	$('#addModal').modal('show');
 });
-
-// Add Buttons
 
 $('#submitAddEmp').on('click', function() {
-	if (confirm("Are you sure you want to add this employee?")) {
-		addEmpFunc();
-	  } else {
-		alert("Employee not added");
-	  }
-	
-});
-
-$('#submitAddDept').on('click', function() {
-	if (confirm("Are you sure you want to add this department?")) {
-		addDeptFunc();
-	  } else {
-		alert("Department not added");
-	  }
-});
-
-$('#submitAddLoc').on('click', function() {
-	if (confirm("Are you sure you want to add this location?")) {
-		addLocFunc();
-	  } else {
-		alert("Location not added");
-	  }
-});
-
-// Save Buttons
-
-$('#submitEmp').on('click', function() {
-	if (confirm("Are you sure you want to update details for this employee?")) {
-		updateEmpFunc();
-	  } else {
-		alert("Details not updated");
-	  }
-});
-
-$('#submitDept').on('click', function() {
-	if (confirm("Are you sure you want to update details for this department?")) {
-		updateDeptFunc();
-	  } else {
-		alert("Details not updated");
-	  }
-});
-
-$('#submitLoc').on('click', function() {
-	if (confirm("Are you sure you want to update details for this location?")) {
-		updateLocFunc();
-	  } else {
-		alert("Details not updated");
-	  }
-});
-
-// Delete Buttons
-
-$('#deleteEmp').on('click', function() {
-	if (confirm("Are you sure you want to remove this employee?")) {
-		deleteEmpFunc();
+	if (!$('#addFName').val() || !$('#addLName').val()) {
+		$('#dataNeededModal').modal('show');
 	} else {
-		alert("Employee not removed");
+		$('#addEmpModal').modal('show');
 	}
 });
 
-$('#deleteDept').on('click', function() {
-	delDeptCheck();
+$('#submitAddDept').on('click', function() {
+	if (!$('#AddDept').val()) {
+		$('#dataNeededModal').modal('show');
+	} else {
+		$('#addDeptModal').modal('show');
+	}
 });
 
-$('#deleteLoc').on('click', function() {
-	delLocCheck();
+$('#submitAddLoc').on('click', function() {
+	if (!$('#loc').val()) {
+		$('#dataNeededModal').modal('show');
+	} else {
+		$('#addLocModal').modal('show');
+	}
+});
+
+$('#addEmpButton').on('click', function() {
+	addEmpFunc();
+});
+
+$('#addDeptButton').on('click', function() {
+	addDeptFunc();
+});
+
+$('#addLocButton').on('click', function() {
+	addLocFunc();
+});
+
+$('#mainSelector').on('change', function() {
+	if ($('#mainSelector').val() === "emp") {
+		getAllEmpTable();
+	} else if ($('#mainSelector').val() === "dept") {
+		getAllDeptTable();
+	} else if ($('#mainSelector').val() === "loc") {
+		getAllLocTable();
+	}
+});
+
+$('#addSelector').on('change', function() {
+	if ($('#addSelector').val() === "emp") {
+		getAllDeptSelect2();
+		$('#addEmpForm').css({display: 'block'});
+		$('#addDeptForm').css({display: 'none'});
+		$('#addLocForm').css({display: 'none'});
+	} else if ($('#addSelector').val() === "dept") {
+		getAllLocSelect2();
+		$('#addEmpForm').css({display: 'none'});
+		$('#addDeptForm').css({display: 'block'});
+		$('#addLocForm').css({display: 'none'});
+	}else if ($('#addSelector').val() === "loc") {
+		$('#addEmpForm').css({display: 'none'});
+		$('#addDeptForm').css({display: 'none'});
+		$('#addLocForm').css({display: 'block'});
+	}
 });
 
 // Clears forms of data
@@ -166,9 +179,6 @@ $('#deleteLoc').on('click', function() {
 function clearForm() {
 	$('.textField').val("");
 	$('input[type=email]').val("");
-	$('select').val('');
-	$('#allEmpByDeptTable').html("");
-	$('#allEmpByLocTable').html("");
 };
 
 // CREATE FUNCTIONS
@@ -194,8 +204,10 @@ function addEmpFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("New Employee Added");
 				clearForm();
+				$("#mainSelector").val("emp").change();
+				$('#addEmpModal').modal('hide');
+				$('#addModal').modal('hide');
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -226,8 +238,10 @@ function addDeptFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("New Department Added");
 				clearForm();
+				$("#mainSelector").val("dept").change();
+				$('#addDeptModal').modal('hide');
+				$('#addModal').modal('hide');
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -257,8 +271,10 @@ function addLocFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("New Location Added");
 				clearForm();
+				$("#mainSelector").val("loc").change();
+				$('#addLocModal').modal('hide');
+				$('#addModal').modal('hide');
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -286,41 +302,64 @@ function getAllEmpTable() {
 
 			var data = result.data;
 
-			$('#allEmpTable').html(`
-			<thead>
+			console.log(data);
+
+			$('#dataSpan').html(`
+			<table id="dataTable" class="table table-hover" data-toggle="table" >
+			<thead class="thead-dark">
 				<tr>
-					<th>
+					<th data-field="firstname">
 						First Name
 					</th>
-					<th>
+					<th data-field="lastname">
 						Last Name
 					</th>
-					<th>
+					<th data-field="jobtitle">
 						Job Title
 					</th>
-					<th>
+					<th data-field="email">
 						Email
 					</th>
-					<th>
+					<th data-field="department">
 						Department
 					</th>
-					<th>
+					<th data-field="location">
 						Location
 					</th>
+					<th data-field="but1">	
+					</th>
+					<th data-field="but2">
+					</th>
 				</tr>
-			</thead>`);
+			</thead><tbody>`);
 
 			data.forEach(emp => {
 
-				$('#allEmpTable').append(`<tr>
+
+				
+
+				
+
+				$('#dataTable').append(`<tr id="${emp.id}">
 					<td>${emp.firstName}</td>
 					<td>${emp.lastName}</td>
 					<td>${emp.jobTitle}</td>
 					<td>${emp.email}</td>
 					<td>${emp.department}</td>
 					<td>${emp.location}</td>
+					<td id="empedt${emp.id}"><i class="fas fa-pen"></i></td>
+					<td id="empdel${emp.id}"><i class="fas fa-trash"></i></td>
 					</tr>`);
+			
+
+					
 			});
+
+				
+
+			$('#dataTable').append(`</tbody></table>`);
+
+			
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -329,6 +368,8 @@ function getAllEmpTable() {
 	}); 		
 	
 };
+
+
 
 // Produce a table with details for all departments
 
@@ -343,28 +384,41 @@ function getAllDeptTable() {
 
 			var data = result.data;
 
-			$('#allDeptTable').html(`
-			<thead>
-				<tr>
-					<th>
+			$('#dataSpan').html(`
+			<table id="dataTable" class="table table-hover" data-toggle="table">
+			<thead class="thead-dark">
+				<tr>					
+					<th data-field="deptID">
 						ID
 					</th>
-					<th>
+					<th data-field="dptDropdown">
+						
+					</th>
+					<th data-field="deptName">
 						Department
 					</th>
-					<th>
+					<th data-field="deptLocation">
 						Location
 					</th>
+					<th data-field="but1">	
+					</th>
+					<th data-field="but2">
+					</th>
 				</tr>
-			</thead>`);
+			</thead><tbody>`);
 
 			data.forEach(dept => {
-				$('#allDeptTable').append(`<tr>
+				$('#dataTable').append(`<tr id="deptRow${dept.id}">
 					<td>${dept.id}</td>
+					<td id="dptexp${dept.id}"><i id="arrowDown${dept.id}" class="fas fa-caret-down"></i></td>
 					<td>${dept.name}</td>
 					<td>${dept.location}</td>
+					<td id="dptedt${dept.id}"><i class="fas fa-pen"></i></td>
+					<td id="dptdel${dept.id}"><i class="fas fa-trash"></i></td>
 				</tr>`);
 			});
+
+			$('#dataTable').append(`</tbody></table>`);
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -387,24 +441,56 @@ function getAllLocTable() {
 
 			var data = result.data;
 
-			$('#allLocTable').html(`
-			<thead>
-				<tr>
+			$('#dataSpan').html(`
+			<table id="dataTable" class="table table-hover" data-toggle="table">
+			<thead class="thead-dark">
+				<tr>					
 					<th>
 						ID
+					</th>
+					<th data-field="dptDropdown">
+						
 					</th>
 					<th>
 						Location
 					</th>
+					<th data-field="but1">	
+					</th>
+					<th data-field="but2">
+					</th>
 				</tr>
-			</thead>`);
+			</thead><tbody>`);
 
 			data.forEach(loc => {
-				$('#allLocTable').append(`<tr>
-					<td>${loc.id}</td>
-					<td>${loc.name}</td>
+				$('#dataTable').append(`<tr id="locRow${loc.id}">
+				<td>${loc.id}</td>
+				<td id="locexp${loc.id}"><i id="arrowDown${loc.id}" class="fas fa-caret-down"></i></td>
+				<td>${loc.name}</td>
+					<td id="locedt${loc.id}"><i class="fas fa-pen"></i></td>
+					<td id="locdel${loc.id}"><i class="fas fa-trash"></i></td>
 				</tr>`);
 			});
+
+			$('#dataTable').append(`</tbody></table>`);
+
+			// $('#allLocTable').html(`
+			// <thead>
+			// 	<tr>
+			// 		<th>
+			// 			ID
+			// 		</th>
+			// 		<th>
+			// 			Location
+			// 		</th>
+			// 	</tr>
+			// </thead>`);
+
+			// data.forEach(loc => {
+			// 	$('#allLocTable').append(`<tr>
+			// 		<td>${loc.id}</td>
+			// 		<td>${loc.name}</td>
+			// 	</tr>`);
+			// });
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -558,22 +644,24 @@ function getAllLocSelect() {
 
 			var data = result.data;
 
-			$('#locSpan').html('<select class="form-control" id="locSelect"><option></option></select>');
+			// console.log(data)
 
-			data.forEach(loc => {
+			// $('#locSpan').html('<select class="form-control" id="locSelect"><option></option></select>');
 
-				$('#locSelect').append($("<option>").attr('value', loc.id).text(`${loc.name}`));
+			// data.forEach(loc => {
 
-			});
+			// 	$('#locSelect').append($("<option>").attr('value', loc.id).text(`${loc.name}`));
 
-			$('#locSelect').change(function() {
-				var thisVal = $('#locSelect').val();
-				var currVal = $('#locSelect')[0][thisVal].innerText;
-				$('#getLocName').val(currVal);
-				getEmployeesByLocation(thisVal);
+			// });
 
-				currentID = thisVal;
-			});
+			// $('#locSelect').change(function() {
+			// 	var thisVal = $('#locSelect').val();
+			// 	var currVal = $('#locSelect')[0][thisVal].innerText;
+			// 	$('#getLocName').val(currVal);
+			// 	getEmployeesByLocation(thisVal);
+
+			// 	currentID = thisVal;
+			// });
 			
 				
 		},
@@ -724,6 +812,34 @@ function getDepartment2(id) {
 	
 };
 
+// Populates form with selected location info
+
+function getLocation(id) {
+
+	currentID = id;
+
+	$.ajax({
+		url: "libs/php/getLocationByID.php",
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			id: id
+		},
+		
+		success: function(result) {
+
+			var data = result.data[0];
+
+			$('#getLocName').val(data.name);
+				
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	}); 		
+	
+};
+
 // Creates tables with all employees in each department
 
 function getEmployeesByDepartment(id) {
@@ -741,7 +857,7 @@ function getEmployeesByDepartment(id) {
 			var data = result.data;
 
 			$('#allEmpByDeptTable').html(`
-			<thead>
+			<thead class="thead-dark">
 				<tr>
 					<th>
 						First Name
@@ -755,6 +871,10 @@ function getEmployeesByDepartment(id) {
 					<th>
 						Email
 					</th>
+					<th data-field="but1">	
+					</th>
+					<th data-field="but2">
+					</th>
 				</tr>
 			</thead>`);
 
@@ -765,6 +885,8 @@ function getEmployeesByDepartment(id) {
 					<td>${emp.lastName}</td>
 					<td>${emp.jobTitle}</td>
 					<td>${emp.email}</td>
+					<td id="empedt${emp.id}"><i class="fas fa-pen"></i></td>
+					<td id="empdel${emp.id}"><i class="fas fa-trash"></i></td>
 					</tr>`);
 			});
 				
@@ -793,7 +915,7 @@ function getEmployeesByLocation(id) {
 			var data = result.data;
 
 			$('#allEmpByLocTable').html(`
-			<thead>
+			<thead class="thead-dark">
 				<tr>
 					<th>
 						First Name
@@ -810,6 +932,10 @@ function getEmployeesByLocation(id) {
 					<th>
 						Department
 					</th>
+					<th data-field="but1">	
+					</th>
+					<th data-field="but2">
+					</th>
 				</tr>
 			</thead>`);
 
@@ -821,6 +947,8 @@ function getEmployeesByLocation(id) {
 					<td>${emp.jobTitle}</td>
 					<td>${emp.email}</td>
 					<td>${emp.department}</td>
+					<td id="empedt${emp.id}"><i class="fas fa-pen"></i></td>
+					<td id="empdel${emp.id}"><i class="fas fa-trash"></i></td>
 					</tr>`);
 			});
 				
@@ -836,7 +964,7 @@ function getEmployeesByLocation(id) {
 
 // Update employee info
 
-function updateEmpFunc() {
+function updateEmpFunc(id) {
 
 	$.ajax({
 		url: "libs/php/updateEmployee.php",
@@ -856,9 +984,10 @@ function updateEmpFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("Employee Details Updated");
 				clearForm();
-				getAllEmpSelect();
+				$('#editEmpModal').modal('hide');
+				$('#editModal').modal('hide');
+				getAllEmpTable();
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -890,9 +1019,10 @@ function updateDeptFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("Department Details Updated");
 				clearForm();
-				getAllDeptSelect();
+				getAllDeptTable();
+				$('#editDeptModal').modal('hide');
+				$('#editDeptConfirmModal').modal('hide');
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -907,7 +1037,7 @@ function updateDeptFunc() {
 
 // Update location info
 
-function updateLocFunc() {
+function updateLocFunc(id) {
 
 	$.ajax({
 		url: "libs/php/updateLocation.php",
@@ -923,9 +1053,11 @@ function updateLocFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("Location Details Updated");
+				// alert("Location Details Updated");
 				clearForm();
-				getAllLocSelect();
+				getAllLocTable();
+				$('#editLocModal').modal('hide');
+				$('#editLocConfirmModal').modal('hide');
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -942,14 +1074,14 @@ function updateLocFunc() {
 
 // Delete employee info
 
-function deleteEmpFunc() {
+function deleteEmpFunc(id) {
 
 	$.ajax({
 		url: "libs/php/deleteEmployee.php",
 		type: 'POST',
 		dataType: 'json',
 		data: {
-			id: currentID
+			id: id
 		},
 		
 		success: function(result) {
@@ -957,9 +1089,8 @@ function deleteEmpFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("Employee Deleted");
-				clearForm();
-				getAllEmpSelect();
+				getAllEmpTable();
+				$('#delEmpModal').modal('hide');
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -974,14 +1105,14 @@ function deleteEmpFunc() {
 
 // Verify department can be safely deleted
 
-function delDeptCheck() {
+function delDeptCheck(id) {
 
 	$.ajax({
 		url: "libs/php/countDepartments.php",
 		type: 'POST',
 		dataType: 'json',
 		data: {
-			id: currentID
+			id: id
 		},
 		
 		success: function(result) {
@@ -989,13 +1120,12 @@ function delDeptCheck() {
 			var data = result.data[0].totalPeople;
 
 			if (data === "0") {
-				if (confirm("Are you sure you want to remove this department?")) {
-					deleteDeptFunc();
-				} else {
-					alert("Department not removed");
-				}
+				$('#delDeptModal').modal('show');
+				$('#delDeptButton').on('click', function() {
+					deleteDeptFunc(id);
+				});
 			} else {
-				alert("This department has employees currently working here. Move staff to new positions before deleting.")
+				$('#cannotDeleteDeptModal').modal('show');
 			}
 				
 		},
@@ -1008,16 +1138,14 @@ function delDeptCheck() {
 
 // Delete department info
 
-function deleteDeptFunc() {
-
-	console.log(currentID);
+function deleteDeptFunc(id) {
 
 	$.ajax({
 		url: "libs/php/deleteDepartment.php",
 		type: 'POST',
 		dataType: 'json',
 		data: {
-			id: currentID
+			id: id
 		},
 		
 		success: function(result) {
@@ -1025,9 +1153,8 @@ function deleteDeptFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("Department Deleted");
-				clearForm();
-				getAllDeptSelect();
+				getAllDeptTable();
+				$('#delDeptModal').modal('hide');
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -1042,14 +1169,14 @@ function deleteDeptFunc() {
 
 // Verify location can be safely deleted
 
-function delLocCheck() {
+function delLocCheck(id) {
 
 	$.ajax({
 		url: "libs/php/countLocations.php",
 		type: 'POST',
 		dataType: 'json',
 		data: {
-			id: currentID
+			id: id
 		},
 		
 		success: function(result) {
@@ -1057,13 +1184,12 @@ function delLocCheck() {
 			var data = result.data[0].totalDepts;
 
 			if (data === "0") {
-				if (confirm("Are you sure you want to remove this location?")) {
-					deleteLocFunc();
-				} else {
-					alert("Location not removed");
-				}
+				$('#delLocModal').modal('show');
+				$('#delLocButton').on('click', function() {
+					deleteLocFunc(id);
+				});
 			} else {
-				alert("This location has departments currently assigned to it. Move departments to new locations before deleting.")
+				$('#cannotDeleteLocModal').modal('show');
 			}
 				
 		},
@@ -1076,14 +1202,14 @@ function delLocCheck() {
 
 // Delete location info
 
-function deleteLocFunc() {
+function deleteLocFunc(id) {
 
 	$.ajax({
 		url: "libs/php/deleteLocation.php",
 		type: 'POST',
 		dataType: 'json',
 		data: {
-			id: currentID
+			id: id
 		},
 		
 		success: function(result) {
@@ -1091,9 +1217,8 @@ function deleteLocFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				alert("Location Deleted");
-				clearForm();
-				getAllLocSelect();
+				getAllLocTable();
+				$('#delLocModal').modal('hide');
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -1105,3 +1230,16 @@ function deleteLocFunc() {
 	}); 		
 	
 };
+
+
+getAllEmpTable();
+
+
+// Stacks Modals
+$(document).on('show.bs.modal', '.modal', function (event) {
+	var zIndex = 1040 + (10 * $('.modal:visible').length);
+	$(this).css('z-index', zIndex);
+	setTimeout(function() {
+		$('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+	}, 0);
+});
