@@ -302,8 +302,6 @@ function getAllEmpTable() {
 
 			var data = result.data;
 
-			console.log(data);
-
 			$('#dataSpan').html(`
 			<table id="dataTable" class="table table-hover" data-toggle="table" >
 			<thead class="thead-dark">
@@ -335,11 +333,6 @@ function getAllEmpTable() {
 
 			data.forEach(emp => {
 
-
-				
-
-				
-
 				$('#dataTable').append(`<tr id="${emp.id}">
 					<td>${emp.firstName}</td>
 					<td>${emp.lastName}</td>
@@ -350,17 +343,11 @@ function getAllEmpTable() {
 					<td id="empedt${emp.id}"><i class="fas fa-pen"></i></td>
 					<td id="empdel${emp.id}"><i class="fas fa-trash"></i></td>
 					</tr>`);
-			
 
-					
 			});
 
-				
-
 			$('#dataTable').append(`</tbody></table>`);
-
-			
-				
+		
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log('error');
@@ -368,8 +355,6 @@ function getAllEmpTable() {
 	}); 		
 	
 };
-
-
 
 // Produce a table with details for all departments
 
@@ -448,8 +433,7 @@ function getAllLocTable() {
 					<th>
 						ID
 					</th>
-					<th data-field="dptDropdown">
-						
+					<th data-field="dptDropdown">	
 					</th>
 					<th>
 						Location
@@ -473,25 +457,6 @@ function getAllLocTable() {
 
 			$('#dataTable').append(`</tbody></table>`);
 
-			// $('#allLocTable').html(`
-			// <thead>
-			// 	<tr>
-			// 		<th>
-			// 			ID
-			// 		</th>
-			// 		<th>
-			// 			Location
-			// 		</th>
-			// 	</tr>
-			// </thead>`);
-
-			// data.forEach(loc => {
-			// 	$('#allLocTable').append(`<tr>
-			// 		<td>${loc.id}</td>
-			// 		<td>${loc.name}</td>
-			// 	</tr>`);
-			// });
-				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log('error');
@@ -499,77 +464,9 @@ function getAllLocTable() {
 	}); 		
 	
 };
-
-// Produce a select for all employees
-
-function getAllEmpSelect() {
-
-	$.ajax({
-		url: "libs/php/getAll.php",
-		type: 'POST',
-		dataType: 'json',
-		
-		success: function(result) {
-
-			var data = result.data;
-
-			$('#empSpan').html('<select class="form-control" id="empSelect"><option></option></select>');
-
-			data.forEach(emp => {
-
-				$('#empSelect').append($("<option>").attr('value', emp.id).text(`${emp.lastName}, ${emp.firstName}`));
-
-			});
-
-			$('#empSelect').change(function() {
-				var currVal = $('#empSelect').val();
-				getPersonnel(currVal);
-			});
-				
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log('error');
-		}
-	}); 		
-	
-};
-
 
 
 // Produce a select for all departments
-
-function getAllDeptSelect() {
-
-	$.ajax({
-		url: "libs/php/getAllDepartments.php",
-		type: 'POST',
-		dataType: 'json',
-		
-		success: function(result) {
-
-			var data = result.data;
-
-			$('#deptSpan').html('<select class="form-control" id="deptSelect"><option></option></select>');
-
-			data.forEach(dept => {
-
-				$('#deptSelect').append($("<option>").attr('value', dept.id).text(`${dept.name}`));
-
-			});
-
-			$('#deptSelect').change(function() {
-				var currVal = $('#deptSelect').val();
-				getDepartment(currVal);
-				getEmployeesByDepartment(currVal);
-			});
-				
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log('error');
-		}
-	}); 		
-	
-};
 
 function getAllDeptSelect2() {
 
@@ -630,47 +527,7 @@ function getAllDeptSelect3() {
 	
 };
 
-
 // Produce a select for all locations
-
-function getAllLocSelect() {
-
-	$.ajax({
-		url: "libs/php/getAllLocations.php",
-		type: 'POST',
-		dataType: 'json',
-		
-		success: function(result) {
-
-			var data = result.data;
-
-			// console.log(data)
-
-			// $('#locSpan').html('<select class="form-control" id="locSelect"><option></option></select>');
-
-			// data.forEach(loc => {
-
-			// 	$('#locSelect').append($("<option>").attr('value', loc.id).text(`${loc.name}`));
-
-			// });
-
-			// $('#locSelect').change(function() {
-			// 	var thisVal = $('#locSelect').val();
-			// 	var currVal = $('#locSelect')[0][thisVal].innerText;
-			// 	$('#getLocName').val(currVal);
-			// 	getEmployeesByLocation(thisVal);
-
-			// 	currentID = thisVal;
-			// });
-			
-				
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log('error');
-		}
-	}); 		
-	
-};
 
 function getAllLocSelect2() {
 
@@ -984,10 +841,10 @@ function updateEmpFunc(id) {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				clearForm();
 				$('#editEmpModal').modal('hide');
 				$('#editModal').modal('hide');
 				getAllEmpTable();
+				clearForm();
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -1019,10 +876,10 @@ function updateDeptFunc() {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				clearForm();
-				getAllDeptTable();
 				$('#editDeptModal').modal('hide');
 				$('#editDeptConfirmModal').modal('hide');
+				getAllDeptTable();
+				clearForm();
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -1053,11 +910,10 @@ function updateLocFunc(id) {
 			var statusCode = result.status.code;
 
 			if (statusCode === "200") {
-				// alert("Location Details Updated");
-				clearForm();
-				getAllLocTable();
 				$('#editLocModal').modal('hide');
 				$('#editLocConfirmModal').modal('hide');
+				getAllLocTable();
+				clearForm();
 			} else {
 				alert("Error occurred, please try again");
 			}
@@ -1231,10 +1087,6 @@ function deleteLocFunc(id) {
 	
 };
 
-
-getAllEmpTable();
-
-
 // Stacks Modals
 $(document).on('show.bs.modal', '.modal', function (event) {
 	var zIndex = 1040 + (10 * $('.modal:visible').length);
@@ -1242,4 +1094,8 @@ $(document).on('show.bs.modal', '.modal', function (event) {
 	setTimeout(function() {
 		$('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
 	}, 0);
+});
+
+$(document).ready(function () {
+	getAllEmpTable();
 });
