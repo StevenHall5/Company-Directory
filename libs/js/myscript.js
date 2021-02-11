@@ -56,7 +56,7 @@ $('#dataSpan').on('click', 'td', function() {
 			var thisexp = (this.id).slice(6);
 			if ($(`#arrowDown${thisexp}`)[0].dataset.icon === "caret-down") {
 				$(`#arrowDown${thisexp}`)[0].dataset.icon = "caret-up";
-				$(`#deptRow${thisexp}`).after(`<tr id="newDeptRow${thisexp}"><td colspan="6"><table class="table table-hover" id="allEmpByDeptTable"></table></td></tr>`);
+				$(`#deptRow${thisexp}`).after(`<tr id="newDeptRow${thisexp}"><td colspan="6"><table class="table table-hover container table-dark" id="allEmpByDeptTable${thisexp}"></table></td></tr>`);
 				getEmployeesByDepartment(thisexp);
 			} else {
 				$(`#arrowDown${thisexp}`)[0].dataset.icon = "caret-down";
@@ -89,7 +89,7 @@ $('#dataSpan').on('click', 'td', function() {
 			var thisexp = (this.id).slice(6);
 			if ($(`#arrowDown${thisexp}`)[0].dataset.icon === "caret-down") {
 				$(`#arrowDown${thisexp}`)[0].dataset.icon = "caret-up";
-				$(`#locRow${thisexp}`).after(`<tr id="newLocRow${thisexp}"><td colspan="6"><table class="table table-hover" id="allEmpByLocTable"></table></td></tr>`);
+				$(`#locRow${thisexp}`).after(`<tr id="newLocRow${thisexp}"><td colspan="6"><table class="table table-striped container table-dark" id="allEmpByLocTable${thisexp}"></table></td></tr>`);
 				getEmployeesByLocation(thisexp);
 			} else {
 				$(`#arrowDown${thisexp}`)[0].dataset.icon = "caret-down";
@@ -146,14 +146,16 @@ $('#addLocButton').on('click', function() {
 	addLocFunc();
 });
 
-$('#mainSelector').on('change', function() {
-	if ($('#mainSelector').val() === "emp") {
-		getAllEmpTable();
-	} else if ($('#mainSelector').val() === "dept") {
-		getAllDeptTable();
-	} else if ($('#mainSelector').val() === "loc") {
-		getAllLocTable();
-	}
+$('#navEmp').on('click', function() {
+	getAllEmpTable();
+});
+
+$('#navDept').on('click', function() {
+	getAllDeptTable();
+});
+
+$('#navLoc').on('click', function() {
+	getAllLocTable();
 });
 
 $('#addSelector').on('change', function() {
@@ -289,6 +291,7 @@ function addLocFunc() {
 
 // READ FUNCTIONS
 
+
 // Produce a table with details for all employees
 
 function getAllEmpTable() {
@@ -300,54 +303,54 @@ function getAllEmpTable() {
 		
 		success: function(result) {
 
-			var data = result.data;
+			var data = result.data;			
 
 			$('#dataSpan').html(`
-			<table id="dataTable" class="table table-hover" data-toggle="table" >
-			<thead class="thead-dark">
-				<tr>
-					<th data-field="firstname">
-						First Name
-					</th>
-					<th data-field="lastname">
-						Last Name
-					</th>
-					<th data-field="jobtitle">
-						Job Title
-					</th>
-					<th data-field="email">
-						Email
-					</th>
-					<th data-field="department">
-						Department
-					</th>
-					<th data-field="location">
-						Location
-					</th>
-					<th data-field="but1">	
-					</th>
-					<th data-field="but2">
-					</th>
-				</tr>
-			</thead><tbody>`);
+			<table id="dataTable" data-height="100" class="table table-hover table-striped table-dark" data-toggle="table collapse">
+			<thead>
+			<tr>
+				<th>
+					First Name
+				</th>
+				<th>
+					Last Name
+				</th>
+				<th class="jCol">
+					Job Title
+				</th>
+				<th class="eCol">
+					Email
+				</th>
+				<th class="dCol">
+					Department
+				</th>
+				<th class="lCol">
+					Location
+				</th>
+				<th>	
+				</th>
+				<th>
+				</th>
+			</tr>
+		</thead><tbody></tbody></table>`);
 
 			data.forEach(emp => {
 
-				$('#dataTable').append(`<tr id="${emp.id}">
+				$('#dataTable').append(
+					
+					`<tr id="${emp.id}">
 					<td>${emp.firstName}</td>
 					<td>${emp.lastName}</td>
-					<td>${emp.jobTitle}</td>
-					<td>${emp.email}</td>
-					<td>${emp.department}</td>
-					<td>${emp.location}</td>
+					<td class="jCol">${emp.jobTitle}</td>
+					<td class="eCol">${emp.email}</td>
+					<td class="dCol">${emp.department}</td>
+					<td class="lCol">${emp.location}</td>
 					<td id="empedt${emp.id}"><i class="fas fa-pen"></i></td>
 					<td id="empdel${emp.id}"><i class="fas fa-trash"></i></td>
 					</tr>`);
 
 			});
 
-			$('#dataTable').append(`</tbody></table>`);
-		
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log('error');
@@ -370,12 +373,9 @@ function getAllDeptTable() {
 			var data = result.data;
 
 			$('#dataSpan').html(`
-			<table id="dataTable" class="table table-hover" data-toggle="table">
+			<table id="dataTable2" class="table table-hover table-striped table-dark" data-toggle="table">
 			<thead class="thead-dark">
 				<tr>					
-					<th data-field="deptID">
-						ID
-					</th>
 					<th data-field="dptDropdown">
 						
 					</th>
@@ -393,8 +393,7 @@ function getAllDeptTable() {
 			</thead><tbody>`);
 
 			data.forEach(dept => {
-				$('#dataTable').append(`<tr id="deptRow${dept.id}">
-					<td>${dept.id}</td>
+				$('#dataTable2').append(`<tr id="deptRow${dept.id}">
 					<td id="dptexp${dept.id}"><i id="arrowDown${dept.id}" class="fas fa-caret-down"></i></td>
 					<td>${dept.name}</td>
 					<td>${dept.location}</td>
@@ -403,7 +402,7 @@ function getAllDeptTable() {
 				</tr>`);
 			});
 
-			$('#dataTable').append(`</tbody></table>`);
+			$('#dataTable2').append(`</tbody></table>`);
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -427,12 +426,9 @@ function getAllLocTable() {
 			var data = result.data;
 
 			$('#dataSpan').html(`
-			<table id="dataTable" class="table table-hover" data-toggle="table">
+			<table id="dataTable3" class="table table-hover table-striped table-dark" data-toggle="table">
 			<thead class="thead-dark">
 				<tr>					
-					<th>
-						ID
-					</th>
 					<th data-field="dptDropdown">	
 					</th>
 					<th>
@@ -446,8 +442,7 @@ function getAllLocTable() {
 			</thead><tbody>`);
 
 			data.forEach(loc => {
-				$('#dataTable').append(`<tr id="locRow${loc.id}">
-				<td>${loc.id}</td>
+				$('#dataTable3').append(`<tr id="locRow${loc.id}">
 				<td id="locexp${loc.id}"><i id="arrowDown${loc.id}" class="fas fa-caret-down"></i></td>
 				<td>${loc.name}</td>
 					<td id="locedt${loc.id}"><i class="fas fa-pen"></i></td>
@@ -455,7 +450,7 @@ function getAllLocTable() {
 				</tr>`);
 			});
 
-			$('#dataTable').append(`</tbody></table>`);
+			$('#dataTable3').append(`</tbody></table>`);
 
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -713,7 +708,7 @@ function getEmployeesByDepartment(id) {
 
 			var data = result.data;
 
-			$('#allEmpByDeptTable').html(`
+			$(`#allEmpByDeptTable${id}`).html(`
 			<thead class="thead-dark">
 				<tr>
 					<th>
@@ -722,10 +717,10 @@ function getEmployeesByDepartment(id) {
 					<th>
 						Last Name
 					</th>
-					<th>
+					<th class="jCol">
 						Job Title
 					</th>
-					<th>
+					<th class="eCol">
 						Email
 					</th>
 					<th data-field="but1">	
@@ -733,15 +728,15 @@ function getEmployeesByDepartment(id) {
 					<th data-field="but2">
 					</th>
 				</tr>
-			</thead>`);
+			</thead><tbody></tbody></table>`);
 
 			data.forEach(emp => {
 
-				$('#allEmpByDeptTable').append(`<tr>
+				$(`#allEmpByDeptTable${id}`).append(`<tr>
 					<td>${emp.firstName}</td>
 					<td>${emp.lastName}</td>
-					<td>${emp.jobTitle}</td>
-					<td>${emp.email}</td>
+					<td class="jCol">${emp.jobTitle}</td>
+					<td class="eCol">${emp.email}</td>
 					<td id="empedt${emp.id}"><i class="fas fa-pen"></i></td>
 					<td id="empdel${emp.id}"><i class="fas fa-trash"></i></td>
 					</tr>`);
@@ -771,7 +766,7 @@ function getEmployeesByLocation(id) {
 
 			var data = result.data;
 
-			$('#allEmpByLocTable').html(`
+			$(`#allEmpByLocTable${id}`).html(`
 			<thead class="thead-dark">
 				<tr>
 					<th>
@@ -780,13 +775,13 @@ function getEmployeesByLocation(id) {
 					<th>
 						Last Name
 					</th>
-					<th>
+					<th class="jCol">
 						Job Title
 					</th>
-					<th>
+					<th class="eCol">
 						Email
 					</th>
-					<th>
+					<th class="dCol">
 						Department
 					</th>
 					<th data-field="but1">	
@@ -798,12 +793,12 @@ function getEmployeesByLocation(id) {
 
 			data.forEach(emp => {
 
-				$('#allEmpByLocTable').append(`<tr>
+				$(`#allEmpByLocTable${id}`).append(`<tr>
 					<td>${emp.firstName}</td>
 					<td>${emp.lastName}</td>
-					<td>${emp.jobTitle}</td>
-					<td>${emp.email}</td>
-					<td>${emp.department}</td>
+					<td class="jCol">${emp.jobTitle}</td>
+					<td class="eCol">${emp.email}</td>
+					<td class="dCol">${emp.department}</td>
 					<td id="empedt${emp.id}"><i class="fas fa-pen"></i></td>
 					<td id="empdel${emp.id}"><i class="fas fa-trash"></i></td>
 					</tr>`);
@@ -1096,6 +1091,26 @@ $(document).on('show.bs.modal', '.modal', function (event) {
 	}, 0);
 });
 
+// Preloader
+
 $(document).ready(function () {
+	if ($('#preloader').length) {
+        $('#preloader').delay(100).fadeOut('slow', function () {
+            $(this).remove();
+        });
+	}
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 50) {
+			$('#back-to-top').fadeIn();
+		} else {
+			$('#back-to-top').fadeOut();
+		}
+	});
+	$('#back-to-top').click(function () {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 400);
+		return false;
+	});
 	getAllEmpTable();
 });

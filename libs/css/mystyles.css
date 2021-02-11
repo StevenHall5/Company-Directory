@@ -3,57 +3,31 @@ html, body{
     margin: 0;
     height: 100%;
     font-family: 'Varela Round', sans-serif;
+	background-color: #343a40;
 }
 
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#navdiv {
     height: 10%;
-    width: 100%;
-    position: fixed;
+}
+
+nav {
+    position: fixed !important;
     z-index: 2;
-    background-color: cornflowerblue;
-    color: white;
+    width: 100%;
+    min-height: 10%;    
 }
 
 main {
-    position: relative;
-    top: 10%;
-    height: 90%;
     width: 100%;
-}
-
-#mainSelector {
-    width: auto;
-    margin: auto;
+    z-index: 5;
 }
 
 #addDeptForm, #addLocForm {
     display: none;
 }
 
-#topButtons {
-    position: fixed;
-    float: right;
-    right: 3%;
-    top: 3%;
-    color: white;
-    z-index: 3;
-}
-
-.fa-sync, .fa-plus-circle {
-    width: 1.5rem !important;
-    height: auto !important;
-    margin: 0 0.5rem;
-}
-
-@media screen and (max-width: 370px) {
-    .fa-sync, .fa-plus-circle {
-        width: 1.5rem !important;
-        height: auto !important;
-        margin: 0 0.1rem !important;
-    }
+#form1 {
+	margin-bottom: 5px;
 }
 
 .fa-pen {
@@ -86,28 +60,28 @@ main {
 	text-align: center;
 }
 
-.saveButton, .deleteButton {
-    color: white;
-    width: 25%;
-    height: 5rem;
-    border-radius: 15px;
+.dropdown-item {
+	color: white !important;
 }
 
-.saveButton {
-    background-color: green;
+.back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: none;
 }
 
-.deleteButton {
-    background-color: darkred;
+.modal-header, .modal-body, .modal-footer, .modal-content {
+	background-color: #212529;
+	color: white;
+	border: #212529;
 }
 
-.centerButtons {
-    display: flex;
-    justify-content: center;
-}
-
-input {
+input, select {
     width: 100%;
+	background-color: #343a40 !important;
+	color: white !important;
+	border: none !important;
 }
 
 .modal-confirm {		
@@ -163,7 +137,7 @@ input {
 	display: inline-block;
 	margin-top: 13px;
 }
-.modal-confirm .btn, .modal-confirm .btn:active {
+.modal .btn-confirm, .modal-confirm .btn, .modal-confirm .btn:active {
 	color: #fff;
 	border-radius: 4px;
 	background: #60c7c1;
@@ -177,7 +151,7 @@ input {
 	margin: 0 5px;
 }
 .modal-confirm .btn-secondary {
-	background: #c1c1c1;
+	background: #6c757d;
 }
 .modal-confirm .btn-secondary:hover, .modal-confirm .btn-secondary:focus {
 	background: #a8a8a8;
@@ -208,9 +182,85 @@ input {
 	display: inline-block;
 	margin-top: 13px;
 }
-.modal-confirm .btn-confirm {
+.modal .btn-confirm, .modal-confirm .btn-confirm {
 	background: #82ce34;
 }
-.modal-confirm .btn-confirm:hover, .modal-confirm .btn-confirm:focus {
+
+.modal .btn-confirm:hover, .modal .btn-confirm:focus, .modal-confirm .btn-confirm:hover, .modal-confirm .btn-confirm:focus {
 	background: #6fb32b;
+}
+
+/* preloader code */
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #fff;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
+    border: 6px solid #f2f2f2;
+    border-top: 6px solid #56829e;
+    border-radius: 50%;  width: 60px;
+    height: 60px;
+    -webkit-animation: animate-preloader 1s linear infinite;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@-webkit-keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+/* Minimise Tables on Smaller Screens */
+@media (max-width: 920px) {
+    .jCol {
+		display: none;
+	}
+}
+
+@media (max-width: 820px) {
+    .lCol {
+		display: none;
+	}
+}
+
+@media (max-width: 740px) {
+    .dCol {
+		display: none;
+	}
+}
+
+@media (max-width: 620px) {
+    .eCol {
+		display: none;
+	}
 }
